@@ -13,8 +13,10 @@ class Category(models.Model):
 class Article(models.Model):
     writer = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField("글 제목", max_length=30)
-    category = models.ManyToManyField(Category, verbose_name="유저")
+    category = models.ManyToManyField(Category, verbose_name="카테고리")
     contents = models.TextField("글 내용")
+    exposure_start_date = models.DateField("노출 시작일자", null=True)
+    exposure_end_date = models.DateField("노출 종료 일자", null =True)
 
 
 class Comment(models.Model):

@@ -1,18 +1,19 @@
-from xml.etree.ElementTree import Comment
+
 from rest_framework import serializers
 
 from user.models import User as UserModel
 from user.models import UserProfile as UserProfileModel
 from blog.models import Article as ArticleModel
+from blog.models import Comment
 
 class ArticleSerializer(serializers.ModelSerializer):
-    user_article = serializers.SerializerMethodField()
-    def get_user_article(self, obj):
-        return "TEST!!"
+    # user_article = serializers.SerializerMethodField()
+    # def get_user_article(self, obj):
+        # return [article for article in obj.article.all()]
 
     class Meta:
         model = ArticleModel
-        fields = ["article", "comment", "user_article"]
+        fields = ["id", "title", "contents"]
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,7 +28,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     userprofile = UserProfileSerializer()
-    articles = ArticleSerializer(many=True, source="article_set")
+    articles = ArticleSerializer(many=True, source="articlemodel_set")
     comments = CommentSerializer(many=True, source="comment_set")
     class Meta:
         model = UserModel
