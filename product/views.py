@@ -14,11 +14,17 @@ class ProductView(APIView):
     # validate
     def get(self, request):
         today = datetime.now()
+        # products = Product.objects.filter(
+        #     Q(exposure_start_date__lte = today, exposure_end_date__gte = today)|
+        #     Q(writer = request.user)
+        # )
+
         products = Product.objects.filter(
-            Q(exposure_start_date__lte = today, exposure_end_date__gte = today)|
+            Q(exposure_end_date__lte = today, activation = True) |
             Q(writer = request.user)
         )
         return Response(ProductSerializer(products, many=True).data)
+        
     # create
     def post(self, request):
         user = request.user

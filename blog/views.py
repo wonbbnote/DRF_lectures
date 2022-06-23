@@ -41,6 +41,7 @@ class ArticleView(APIView):
         contents = request.data.get("contents", "")
         categorys = request.data.pop("category", [])
 
+
         if len(title)<=5:
             return Response({"error": "제목은 5자 이상!"})
         if len(contents) <= 20:
